@@ -13,11 +13,48 @@ import java.time.LocalDateTime;
  * @author Andrew
  */
 public class Interval {
-    protected Long id;
-    protected LocalDateTime from;
-    protected LocalDateTime to;
+    private Long id;
+    private LocalDateTime from;
+    private LocalDateTime to;
     
     public Duration length(){
-        return Duration.between(from, to);
+        return Duration.between(getFrom(), getTo());
     }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @return the from
+     */
+    public LocalDateTime getFrom() {
+        return from;
+    }
+
+    /**
+     * @param from the from to set
+     */
+    public void setFrom(LocalDateTime from) {
+        this.from = from;
+    }
+
+    /**
+     * @return the to
+     */
+    public LocalDateTime getTo() {
+        return to;
+    }
+
+    /**
+     * @param to the to to set
+     */
+    public void setTo(LocalDateTime to) {
+        this.to = to;
+    }
+    
+    
 }
