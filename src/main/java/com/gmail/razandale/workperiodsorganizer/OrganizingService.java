@@ -8,6 +8,9 @@ package com.gmail.razandale.workperiodsorganizer;
 import java.util.List;
 import com.gmail.razandale.workperiodsorganizer.model.WorkInterval;
 import com.gmail.razandale.workperiodsorganizer.model.EmployeeInterval;
+import com.gmail.razandale.workperiodsorganizer.model.Interval;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,7 +29,6 @@ public class OrganizingService {
         organizers.add(new WeekOrganizer());
         organizers.add(new DayOrganizer());
     }
-    
     
     /**
      * Main method to get an organized graph of work.
