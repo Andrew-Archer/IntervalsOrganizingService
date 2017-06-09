@@ -17,6 +17,16 @@ public class OrganizingService {
     //Here we store different periods organizers.
     private List<Organizer> organizers;
     
+    /**
+     * Constructor builds organizers chain.
+     */
+    public OrganizingService(){
+        organizers.add(new YearOrganizer());
+        organizers.add(new MonthOrganizer());
+        organizers.add(new WeekOrganizer());
+        organizers.add(new DayOrganizer());
+    }
+    
     
     /**
      * Main method to get an organized graph of work.
@@ -40,7 +50,7 @@ public class OrganizingService {
      * Clears workIntervals and refills it with employeeIntervals.
      * @param workIntervals
      * @param employeeIntervals
-     * @return a work graph of work intervals filled with inployees
+     * @return a work graph of work intervals filled with employees
      */
     private List<WorkInterval> weld(
         List<WorkInterval> workIntervals,

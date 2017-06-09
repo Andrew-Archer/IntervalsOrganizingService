@@ -5,10 +5,19 @@
  */
 package com.gmail.razandale.workperiodsorganizer.model;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author Andrew
  */
 public class EmployeeInterval extends Interval{
     private Employee employee;
+    
+    //Criteria to determine who picked the job first.
+    private LocalDateTime creationTime;
+    
+    public EmployeeInterval(){
+        creationTime = LocalDateTime.now();
+    }
 }
