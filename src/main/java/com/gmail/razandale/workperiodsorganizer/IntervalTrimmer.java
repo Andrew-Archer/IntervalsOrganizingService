@@ -5,7 +5,7 @@
  */
 package com.gmail.razandale.workperiodsorganizer;
 
-import com.gmail.razandale.workperiodsorganizer.model.Interval;
+import com.gmail.razandale.intervals.Interval;
 import java.util.List;
 
 /**

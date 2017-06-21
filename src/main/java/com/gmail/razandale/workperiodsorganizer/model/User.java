@@ -6,12 +6,15 @@
 package com.gmail.razandale.workperiodsorganizer.model;
 
 import java.util.List;
+import lombok.Data;
 
 /**
  *
  * @author Andrew
  */
-class Employee {
+@Data
+public class User {
     private Long id;
     private List<Work> typeOfWork;
+    private String role;
 }

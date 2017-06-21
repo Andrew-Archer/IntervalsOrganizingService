@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.gmail.razandale.workperiodsorganizer.model;
+package com.gmail.razandale.intervals;
 
+import com.gmail.razandale.intervals.Interval;
+import com.gmail.razandale.workperiodsorganizer.model.Work;
 import java.util.List;
 
 /**

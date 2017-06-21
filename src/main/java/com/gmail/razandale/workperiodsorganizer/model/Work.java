@@ -5,13 +5,15 @@
  */
 package com.gmail.razandale.workperiodsorganizer.model;
 
-import java.util.List;
+import lombok.Data;
 
 /**
  *
  * @author Andrew
  */
-class Work {
+@Data
+public class Work {
     private Long id;
-    private List<Employee> employees;
+    private String name;
+    private String description;
 }
