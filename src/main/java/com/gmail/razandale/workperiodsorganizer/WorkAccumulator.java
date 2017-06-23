@@ -5,6 +5,7 @@
  */
 package com.gmail.razandale.workperiodsorganizer;
 
+import com.gmail.razandale.intervals.EmployeeInterval;
 import com.gmail.razandale.intervals.Interval;
 import com.gmail.razandale.workperiodsorganizer.model.User;
 import java.time.LocalDateTime;
@@ -34,6 +35,18 @@ public class WorkAccumulator {
     private Long hoursInAWeek;
     private Long hoursInAMonth;
     private LocalDateTime previousDate;
+    
+    /**
+     * Main constructor.
+     * @param employeeInterval serves as source of
+     * initial data to the fields.
+     */
+    public WorkAccumulator(EmployeeInterval employeeInterval){
+        user = employeeInterval.getEmployee();
+        hoursInADay = employeeInterval.length().toHours();
+        hoursInAWeek = hoursInADay;
+        hoursInAMonth = hoursInADay;
+    }
     
     public void accumulate(Interval interval){
         

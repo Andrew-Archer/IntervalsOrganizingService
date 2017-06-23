@@ -5,7 +5,7 @@
  */
 package com.gmail.razandale.workperiodsorganizer;
 
-import com.gmail.razandale.intervals.Interval;
+import com.gmail.razandale.intervals.EmployeeInterval;
 
 /**
  *
@@ -16,5 +16,5 @@ public interface Validator {
      *
      * @param interval
      */
-    public void validate(Interval interval);
+    public void validate(EmployeeInterval interval);
 }

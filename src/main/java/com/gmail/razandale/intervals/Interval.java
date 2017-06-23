@@ -20,11 +20,10 @@ public class Interval implements Comparable{
     
     /**
      * Returns duration of this interval.
-     * @return duration of this interval as
-     * {@link java.time.LocalDateTime}.
+     * @return duration of this interval as {@link Duration}.
      */
-    public Long length(){
-        return Duration.between(getFrom(), getTo()).toMillis();
+    public Duration length(){
+        return Duration.between(getFrom(), getTo());
     }
 
     @Override

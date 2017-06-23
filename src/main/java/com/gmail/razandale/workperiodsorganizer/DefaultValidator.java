@@ -5,8 +5,11 @@
  */
 package com.gmail.razandale.workperiodsorganizer;
 
+import com.gmail.razandale.intervals.EmployeeInterval;
 import com.gmail.razandale.intervals.Interval;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DefaultValidator implements Validator {
@@ -36,26 +39,71 @@ public class DefaultValidator implements Validator {
     private static final Duration MAX_TOTAL_WORK_IN_A_MONTH = Duration.ofHours(160);
     
     /**
+     * Here we store data about total amount of work
+     * for different users in hours.
+     */
+    private List<WorkAccumulator> workAccumulators = new ArrayList<>();
+    
+    /**
      * Check for an {@link Interval} shorter than this minimum length
      * or longer than this maximum length.
      * @return true if the length of the given {@link Interval} is right
      * or false in another case.
      */
     private Boolean isValidDuration(Interval interval){
-        return interval.length() < MAX_DURATION.toMillis() ||
-                        interval.length() > MIN_DURATION.toMillis();
+        return interval.length().toMillis() < MAX_DURATION.toMillis() ||
+                        interval.length().toMillis() > MIN_DURATION.toMillis();
+    }
+    
+    /**
+     * Search for a {@link Workaccumulator} by the given interval's user.
+     * @param interval should be an {@link EmployeeInterval} with user to find
+     * proper {@link WorkAccumulator}.
+     * @return null if workAccumulators is empty, or if there is no
+     * {@link WorkAccumulator} for the given interval's user. Other way
+     * returns found {@link WorkAccumulator};
+     */
+    private WorkAccumulator findWorkAccumulator(EmployeeInterval interval){
+        if(workAccumulators.isEmpty()){
+                return null;
+            }
+        for(WorkAccumulator workAccumulator : workAccumulators){
+            //If have found proper accumulator.
+            if(workAccumulator.getUser().equals(interval.getEmployee())){
+                return workAccumulator;
+            }
+        }
+        return null;
     }
     
     /**
      * 
      * @param interval 
      */
-    private Boolean totalAmountOfWorkIsExceeded(Interval interval){
+    private Boolean totalAmountOfWorkIsExceeded(EmployeeInterval interval){
+        //Search for a proper WorkAccumulator.
+        WorkAccumulator workAccumulator = findWorkAccumulator(interval);
         
+        //If accumulators list is empty, or there is no
+        //accumulator for given worker.
+        if(workAccumulator == null){
+            //Add new accumulator.
+            workAccumulator = new WorkAccumulator(interval);
+            workAccumulators.add(workAccumulator);
+        }
+        
+        //If breakes any period limits.
+        if(workAccumulator.getHoursInADay() > MAX_TOTAL_WORK_IN_A_DAY.toHours() ||
+           workAccumulator.getHoursInAWeek() > MAX_TOTAL_WORK_IN_A_WEEK.toHours() ||
+           workAccumulator.getHoursInAMonth() > MAX_TOTAL_WORK_IN_A_MONTH.toHours()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
-    public void validate(Interval interval) {
+    public void validate(EmployeeInterval interval) {
         //If duration of the given interval is not valid
         //then add this interval to the validation failures list.
         if(!isValidDuration(interval)){
@@ -64,7 +112,7 @@ public class DefaultValidator implements Validator {
             return;
         }
         
-        //If total amount of a work exceed in a day, a week, a month
+        //If total amount of work exceed in a day, a week, a month
         //more than allowed by restrictions add this interval to the validation
         //failures list.
         if(totalAmountOfWorkIsExceeded(interval)){
