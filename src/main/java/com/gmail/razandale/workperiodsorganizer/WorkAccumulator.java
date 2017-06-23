@@ -11,7 +11,10 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 /**
- *
+ * Here we count total amount of work for such
+ * periods as a day, a week, a month.
+ * If accumulator gets an interval from other day, week, or
+ * month then we drop counter.
  * @author Andrew
  */
 @Data
