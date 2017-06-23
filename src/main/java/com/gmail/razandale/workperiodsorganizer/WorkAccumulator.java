@@ -11,10 +11,20 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 /**
+ * Control total time in hours for certain user
+ * in a day, a week, a month.
  * Here we count total amount of work for such
  * periods as a day, a week, a month.
  * If accumulator gets an interval from other day, week, or
  * month then we drop counter.
+ * If interval in a different day, but in the same week and month
+ * then drop only hoursInADay.
+ * If interval in a different week, but in the same month
+ * then drop hoursInADay and hoursInAWeek.
+ * If interval in a different month,
+ * then drop all hours accumulators.
+ * After dropping accumulators sets new values
+ * according to the current interval.
  * @author Andrew
  */
 @Data
