@@ -38,16 +38,24 @@ public class DefaultValidator implements Validator {
     /**
      * Check for an {@link Interval} shorter than this minimum length
      * or longer than this maximum length.
-     * @return true if the length of the given {@link Interval} is Ok
+     * @return true if the length of the given {@link Interval} is right
      * or false in another case.
      */
     private Boolean isValidDuration(Interval interval){
         return interval.length() < MAX_DURATION.toMillis() ||
                         interval.length() > MIN_DURATION.toMillis();
     }
+    
+    /**
+     * 
+     * @param interval 
+     */
+    private Boolean totalAmountOfWorkIsExceeded(Interval interval){
+        
+    }
 
     @Override
-    public void validate(Interval interval) throws IntervalValidationException {
+    public void validate(Interval interval) {
         //If duration of the given interval is not valid
         //then add this interval to the validation failures list.
         if(!isValidDuration(interval)){
@@ -56,7 +64,13 @@ public class DefaultValidator implements Validator {
             return;
         }
         
-        
+        //If total amount of a work exceed in a day, a week, a month
+        //more than allowed by restrictions add this interval to the validation
+        //failures list.
+        if(totalAmountOfWorkIsExceeded(interval)){
+            validationFailures.addInterval(interval);
+            validationFailures.addCause("Amount of work has been exceeded");
+        }
         
     }
     

@@ -15,7 +15,6 @@ public interface Validator {
     /**
      *
      * @param interval
-     * @throws IntervalValidationException
      */
-    public void validate(Interval interval) throws IntervalValidationException;
+    public void validate(Interval interval);
 }
