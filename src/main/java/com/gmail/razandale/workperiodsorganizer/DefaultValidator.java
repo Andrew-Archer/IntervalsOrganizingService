@@ -14,6 +14,18 @@ import java.util.List;
 
 public class DefaultValidator implements Validator {
     /**
+     * Stores list of all invalidated intervals and
+     * all causes of their invalidation.
+     */
+    private List<ValidationFailures> validationFailuresList;
+    
+    /**
+     * Last validated interval to compare
+     * with the new given.
+     */
+    private EmployeeInterval lastValidatedInterval;
+    
+    /**
      * The maximum duration of an interval in hours.
      */
     private static final Duration MAX_DURATION = Duration.ofHours(8);
@@ -113,7 +125,7 @@ public class DefaultValidator implements Validator {
             return false;
         }
     }
-
+    
     @Override
     /**
      * Validate duration of the given interval by checking the interval
@@ -122,23 +134,39 @@ public class DefaultValidator implements Validator {
      * And the last check is the given interval does not occupies an
      * already taken time interval.
      */
-    public void validate(EmployeeInterval interval) {
+    public EmployeeInterval validate(EmployeeInterval interval) {
+        List<String> causesOfInvalidation = new ArrayList<>();
+        
         //If duration of the given interval is not valid
         //then add this interval to the validation failures list.
         if(!isValidDuration(interval)){
-            validationFailures.addInterval(interval);
-            validationFailures.addCause("Wrong interval's length.");
-            return;
+            causesOfInvalidation.add("Wrong interval's length");
         }
         
         //If total amount of work exceed in a day, a week, a month
         //more than allowed by restrictions then add this interval to the validation
         //failures list.
         if(totalAmountOfWorkIsExceeded(interval)){
-            validationFailures.addInterval(interval);
-            validationFailures.addCause("Amount of work has been exceeded");
+            causesOfInvalidation.add("Amount of work has been exceeded");
         }
         
+        //If this time interval is already taken by some other
+        //We can't check it here because there is no data about what work is
+        //taken.
+        //if(isAlreadyTaken(interval)){
+        //    causesOfInvalidation.add("This work is already taken");
+        //}
+        
+        //If there are no invalidation causes return the given interval,
+        //other way add new ValidationFailures to the validationFailuresList
+        //and return null.
+        if(causesOfInvalidation.isEmpty()){
+            lastValidatedInterval = interval;
+            return interval;
+        }else{
+            validationFailuresList.add(new ValidationFailures(interval, causesOfInvalidation));
+            return null;
+        }
     }
     
 }

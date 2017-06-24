@@ -15,6 +15,7 @@ public interface Validator {
     /**
      *
      * @param interval
+     * @return 
      */
-    public void validate(EmployeeInterval interval);
+    public EmployeeInterval validate(EmployeeInterval interval);
 }
