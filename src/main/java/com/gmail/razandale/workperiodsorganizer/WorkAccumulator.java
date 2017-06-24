@@ -35,7 +35,11 @@ public class WorkAccumulator {
     private Long hoursInAWeek;
     private Long hoursInAMonth;
     private LocalDateTime previousDate;
-	private enum {OTHER_DAY, OTHER_WEEK, OTHER_MONTH};
+    private enum TypeOfInterval {OTHER_DAY, OTHER_WEEK, OTHER_MONTH};
+        
+    private TypeOfInterval whatIsNext(EmployeeInterval interval){
+        return null;
+    }
     
     /**
      * Main constructor.
@@ -49,12 +53,23 @@ public class WorkAccumulator {
         hoursInAMonth = hoursInADay;
     }
     
-    public void accumulate(Interval interval){
+    public void accumulate(EmployeeInterval interval){
 		switch(whatIsNext(interval)){
-			case OTHER_DAY:
-				break;
-				case OTHER_WEEK:
-					break;
+			case OTHER_DAY:{
+                            
+                        }
+			break;
+			case OTHER_WEEK:{
+                            
+                        }
+                        break;
+                        case OTHER_MONTH:{
+                            
+                        }
+                        break;
+                        default:{
+                            
+                        }
 		}
         
     }
