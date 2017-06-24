@@ -35,11 +35,12 @@ public class WorkAccumulator {
     private Long hoursInAWeek;
     private Long hoursInAMonth;
     private LocalDateTime previousDate;
+	private enum {OTHER_DAY, OTHER_WEEK, OTHER_MONTH};
     
     /**
      * Main constructor.
      * @param employeeInterval serves as source of
-     * initial data to the fields.
+     * initial data for the fields.
      */
     public WorkAccumulator(EmployeeInterval employeeInterval){
         user = employeeInterval.getEmployee();
@@ -49,6 +50,12 @@ public class WorkAccumulator {
     }
     
     public void accumulate(Interval interval){
+		switch(whatIsNext(interval)){
+			case OTHER_DAY:
+				break;
+				case OTHER_WEEK:
+					break;
+		}
         
     }
     
