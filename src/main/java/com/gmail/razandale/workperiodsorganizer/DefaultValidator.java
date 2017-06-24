@@ -115,6 +115,13 @@ public class DefaultValidator implements Validator {
     }
 
     @Override
+    /**
+     * Validate duration of the given interval by checking the interval
+     * is not longer or shorter than it's allowed.</br>
+     * Also makes it sure that the interval is in only one day.
+     * And the last check is the given interval does not occupies an
+     * already taken time interval.
+     */
     public void validate(EmployeeInterval interval) {
         //If duration of the given interval is not valid
         //then add this interval to the validation failures list.
@@ -125,7 +132,7 @@ public class DefaultValidator implements Validator {
         }
         
         //If total amount of work exceed in a day, a week, a month
-        //more than allowed by restrictions add this interval to the validation
+        //more than allowed by restrictions then add this interval to the validation
         //failures list.
         if(totalAmountOfWorkIsExceeded(interval)){
             validationFailures.addInterval(interval);
