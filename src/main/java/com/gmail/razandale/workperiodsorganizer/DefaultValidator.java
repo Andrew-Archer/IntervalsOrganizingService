@@ -17,7 +17,7 @@ public class DefaultValidator implements Validator {
      * Stores list of all invalidated intervals and
      * all causes of their invalidation.
      */
-    private List<ValidationFailures> validationFailuresList;
+    private List<InvalidationOccurences> validationFailuresList;
     
     /**
      * Last validated interval to compare
@@ -164,7 +164,7 @@ public class DefaultValidator implements Validator {
             lastValidatedInterval = interval;
             return interval;
         }else{
-            validationFailuresList.add(new ValidationFailures(interval, causesOfInvalidation));
+            validationFailuresList.add(new InvalidationOccurences(interval, causesOfInvalidation));
             return null;
         }
     }
