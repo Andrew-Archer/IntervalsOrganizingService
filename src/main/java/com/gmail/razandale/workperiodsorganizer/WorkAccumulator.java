@@ -34,7 +34,7 @@ public class WorkAccumulator {
     private Long hoursInADay;
     private Long hoursInAWeek;
     private Long hoursInAMonth;
-    private LocalDateTime previousDate;
+    private EmployeeInterval previousInterval;
     private enum TypeOfInterval {OTHER_DAY, OTHER_WEEK, OTHER_MONTH};
         
     private TypeOfInterval whatIsNext(EmployeeInterval interval){
@@ -55,20 +55,36 @@ public class WorkAccumulator {
     
     public void accumulate(EmployeeInterval interval){
 		switch(whatIsNext(interval)){
+                        //previousInterval is in another day than the
+                        //interval.
 			case OTHER_DAY:{
-                            
+                            hoursInADay = interval.length().toHours();
+                            hoursInAWeek += hoursInADay;
+                            hoursInAMonth += hoursInADay;
                         }
 			break;
+                        //previousInterval is in another week than the
+                        //interval.
 			case OTHER_WEEK:{
-                            
+                            hoursInADay = interval.length().toHours();
+                            hoursInAWeek = hoursInADay;
+                            hoursInAMonth += hoursInADay;
                         }
                         break;
+                        //previousInterval is in another month than the
+                        //interval.
                         case OTHER_MONTH:{
-                            
+                            hoursInADay = interval.length().toHours();
+                            hoursInAWeek = hoursInADay;
+                            hoursInAMonth = hoursInADay;
                         }
                         break;
+                        //previousInterval is in the same day as the
+                        //interval.
                         default:{
-                            
+                            hoursInADay += interval.length().toHours();
+                            hoursInAWeek += hoursInADay;
+                            hoursInAMonth += hoursInADay;
                         }
 		}
         
