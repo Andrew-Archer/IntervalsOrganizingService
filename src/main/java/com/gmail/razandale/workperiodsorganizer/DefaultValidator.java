@@ -51,8 +51,17 @@ public class DefaultValidator implements Validator {
      * or false in another case.
      */
     private Boolean isValidDuration(Interval interval){
-        return interval.length().toMillis() < MAX_DURATION.toMillis() ||
-                        interval.length().toMillis() > MIN_DURATION.toMillis();
+        //Check size of an interval.
+        if(interval.length().toMillis() > MAX_DURATION.toMillis() ||
+                        interval.length().toMillis() < MIN_DURATION.toMillis()){
+            return false;
+        }
+        //Make sure that an interval occupy not more than one day.
+        //We don't need such check for a week or a month because first check
+        //includes it.
+        return (interval.getFrom().getDayOfMonth() != interval.getTo().getDayOfMonth() &&
+                !interval.getFrom().getMonth().equals(interval.getTo().getMonth()) );
+     
     }
     
     /**
@@ -91,6 +100,9 @@ public class DefaultValidator implements Validator {
             workAccumulator = new WorkAccumulator(interval);
             workAccumulators.add(workAccumulator);
         }
+        
+        //Accumulate the given interval
+        workAccumulator.accumulate(interval);
         
         //If breakes any period limits.
         if(workAccumulator.getHoursInADay() > MAX_TOTAL_WORK_IN_A_DAY.toHours() ||
