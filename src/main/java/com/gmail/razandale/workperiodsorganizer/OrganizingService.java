@@ -14,17 +14,23 @@ import com.gmail.razandale.intervals.EmployeeInterval;
  * @author Andrew
  */
 public class OrganizingService {
-    //Here we store different periods organizers.
-    private List<Organizer> organizers;
     private Validator validator;
-    
+   
     /**
-     * Constructor builds organizers chain.
+     * Constructor with a custom validator.
+     * @param validator developer designed validator.
      */
-    public OrganizingService(List<Organizer> organizers, Validator validator){
-        this.organizers = organizers;
-        this.validator = validator;
-    }
+   public OrganizingService(Validator validator){
+       this.validator = validator;
+   }
+   
+   /**
+    * Default constructor. Sets default validator as
+    * the validator.
+    */
+   public OrganizingService(){
+       this.validator = new DefaultValidator();
+   }
     
     /**
      * Main method to get an organized graph of work.
@@ -44,37 +50,23 @@ public class OrganizingService {
         for (WorkInterval workInterval : workIntervals){
             for(EmployeeInterval employeeInterval : employeeIntervals){
                 
-                //Check for an employeeInterval shorter than minimum length
-                //or for an employeeInterval longer than maximun length.
-                if {
-                    //Go to the next employeeInterval.
+                //If validation is ok the return employee interval and
+                //null if interval is invalid.
+                employeeInterval = validator.validate(employeeInterval);
+                
+                //If employeeInterval is null then look for
+                //the next employeeInterval.
+                if(employeeInterval == null){
                     continue;
                 }
                 
                 //Check if an intersection exist.
-                if (Interval.hasIntersection(workInterval, imployeeInterval)){
-                    //Count totall number of working hours for one employee
-                    //in a day, a week, etc.
-                    //Give the validator new information about working hours.
-                    //If new interval does not break the restrictions then
-                    //we add it to the result, else go to a new imployeeInterval.
-                    if (validator.addEmployeeIntervalData(employeeInterval)){
-                        result.combineAndAdd(imployeeInterval, workInterval);
-                    }
+                if (workInterval.hasIntersection(employeeInterval)){
+                   //Here should be a organizer method witch
+                   //combines two intervals.
                 }
             }
         }
-        
-        
-        IntervalTrimmer pastTrimmer = new PastTrimmer();
-        
-        
-        List<EmployeeInterval> result = employeeIntervals;
-        
-        for (Organizer organizer : organizers){
-            result = organizer.organize(workIntervals, result);
-        }
-        return weld(workIntervals,result);
     }
     
     /**

@@ -6,9 +6,7 @@
 package com.gmail.razandale.workperiodsorganizer;
 
 import com.gmail.razandale.intervals.EmployeeInterval;
-import com.gmail.razandale.intervals.Interval;
 import com.gmail.razandale.workperiodsorganizer.model.User;
-import java.time.LocalDateTime;
 import lombok.Data;
 
 /**
