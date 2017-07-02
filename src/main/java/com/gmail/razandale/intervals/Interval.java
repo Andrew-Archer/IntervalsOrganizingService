@@ -3,9 +3,14 @@
  */
 package com.gmail.razandale.intervals;
 
+import static com.gmail.razandale.intervals.Interval.IntersectionType.*;
+import com.gmail.razandale.workperiodsorganizer.model.User;
+import com.gmail.razandale.workperiodsorganizer.model.Work;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Do not subclass this class it's for internal use only.
@@ -13,11 +18,28 @@ import lombok.Data;
  * @author Andrew
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Interval implements Comparable {
 
-    protected Long id;
+    public static enum IntersectionType {
+        START_BEFORE__END_BEFORE,
+        START_BEFORE__END_FIT,
+        START_BEFORE__END_AFTER,
+        START_FIT__END_BEFORE,
+        START_FIT__END_FIT,
+        START_FIT__END_AFTER,
+        START_AFTER__END_BEFORE,
+        START_AFTER__END_FIT,
+        START_AFTER__END_AFTER
+    };
+    
+    protected User employee;
+    protected Work work;
     protected LocalDateTime from;
     protected LocalDateTime to;
+    
+    
 
     /**
      * Returns duration of this interval.
@@ -42,6 +64,57 @@ public class Interval implements Comparable {
                 && interval.getTo().isAfter(getTo().minusNanos(1))));
     }
 
+    
+    /**
+     * There are only 9 types of overlapping is available, since there are no
+     * zero length {@link Interval}s.
+     * @param interval
+     * @return
+     */
+    public IntersectionType getOverlappingType(Interval interval) {
+        int result;
+        int startType = 30;
+        int endType = 3;
+
+        if (getFrom().isBefore(interval.getFrom())) {
+            startType = 10;
+        } else if (getFrom().isAfter(interval.getFrom())) {
+            startType = 20;
+        }
+
+        if (getTo().isBefore(interval.getTo())) {
+            endType = 1;
+        } else if (getTo().isAfter(interval.getTo())) {
+            endType = 2;
+        }
+
+        result = startType + endType;
+        
+        switch (result){
+            case 33:
+                return START_FIT__END_FIT;
+            case 31:
+                return START_FIT__END_BEFORE;
+            case 32:
+                return START_FIT__END_AFTER;
+            case 23:
+                return START_AFTER__END_FIT;
+            case 21:
+                return START_AFTER__END_BEFORE;
+            case 22:
+                return START_AFTER__END_AFTER;
+            case 13:
+                return START_BEFORE__END_FIT;
+            case 11:
+                return START_BEFORE__END_BEFORE;
+            case 12:
+                return START_BEFORE__END_AFTER;
+            default :
+                return null;
+            
+        }
+    }
+    
     @Override
     /**
      * If this from and argument's from is equal, then compares this to and

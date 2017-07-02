@@ -8,13 +8,32 @@ package com.gmail.razandale.workperiodsorganizer;
 import java.util.List;
 import com.gmail.razandale.intervals.WorkInterval;
 import com.gmail.razandale.intervals.EmployeeInterval;
+import com.gmail.razandale.intervals.Interval;
+import java.util.ArrayList;
 
 /**
  *
  * @author Andrew
  */
 public class OrganizingService {
+    
+    /**
+     * Current validator for the validating an
+     * {@link EmployeeInterval}
+     */
     private Validator validator;
+    
+    /**
+     * Implements the Welder interface and
+     * serves to the welding of two intervals types.
+     */
+    private Welder welder;
+    
+    /**
+     * Here we store result of welding
+     * {@link WorkInterval}s and {@link EmployeeInterval}s.
+     */
+    private List<WorkInterval> resultingWorkGraph;
    
     /**
      * Constructor with a custom validator.
@@ -38,9 +57,11 @@ public class OrganizingService {
      * @param employeeIntervals
      * @return a validated graph of work intervals with employees assigned.
      */
-    public List<WorkInterval> organize(
+    public List<Interval> organize(
         List<WorkInterval> workIntervals,
         List<EmployeeInterval> employeeIntervals){
+        
+        List<Interval> tmpWorkInterval = new ArrayList<>();
         
         //Sort both intervals by from and to boundaries.
         workIntervals.sort(null);
@@ -49,35 +70,17 @@ public class OrganizingService {
         //Run through the work's list and search for employee.
         for (WorkInterval workInterval : workIntervals){
             for(EmployeeInterval employeeInterval : employeeIntervals){
-                
-                //If validation is ok the return employee interval and
-                //null if interval is invalid.
-                employeeInterval = validator.validate(employeeInterval);
-                
-                //If employeeInterval is null then look for
-                //the next employeeInterval.
-                if(employeeInterval == null){
-                    continue;
-                }
-                
                 //Check if an intersection exist.
                 if (workInterval.hasIntersection(employeeInterval)){
                    //Here should be a organizer method witch
                    //combines two intervals.
+                   tmpWorkInterval.add(welder.weld(workInterval,
+                        employeeInterval,
+                        validator));
+                   
                 }
             }
         }
-    }
-    
-    /**
-     * Clears workIntervals and refills it with employeeIntervals.
-     * @param workIntervals
-     * @param employeeIntervals
-     * @return a work graph of work intervals filled with employees
-     */
-    private List<WorkInterval> weld(
-        List<WorkInterval> workIntervals,
-        List<EmployeeInterval> employeeIntervals){
-        throw new RuntimeException("Method veld is not implemented yet.");
+        return tmpWorkInterval;
     }
 }

@@ -5,15 +5,12 @@
  */
 package com.gmail.razandale.intervals;
 
-import com.gmail.razandale.intervals.Interval;
-import com.gmail.razandale.workperiodsorganizer.model.Work;
-import java.util.List;
+import lombok.Data;
 
 /**
  *
  * @author Andrew
  */
+@Data
 public class WorkInterval extends Interval{
-    private Long employeeId;
-    private List<Work> works;
 }
