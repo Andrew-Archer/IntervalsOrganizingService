@@ -8,8 +8,9 @@ package com.gmail.razandale.workperiodsorganizer;
 import com.gmail.razandale.intervals.EmployeeInterval;
 import com.gmail.razandale.intervals.Interval;
 import com.gmail.razandale.intervals.WorkInterval;
+import lombok.NoArgsConstructor;
 
-
+@NoArgsConstructor
 public class DefaultWelder implements Welder {
     @Override
     public Interval weld(WorkInterval workInterval, 

@@ -6,6 +6,7 @@
 package com.gmail.razandale.workperiodsorganizer.model;
 
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -13,8 +14,8 @@ import lombok.Data;
  * @author Andrew
  */
 @Data
+@AllArgsConstructor
 public class User {
-    private Long id;
     private List<Work> typeOfWork;
     private String role;
 }

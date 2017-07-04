@@ -125,4 +125,14 @@ public class Interval implements Comparable {
                 ? to.compareTo(((Interval) o).getTo())
                 : from.compareTo(((Interval) o).getFrom());
     }
+    
+    @Override
+    public String toString(){
+        String result = new String();
+        result = result + "Employee: " + employee == null ?"none":employee.toString() + "\n";
+        result = result + "Work : " + work.toString() + "\n";
+        result = result + "From: " + from.toString() + "\n";
+        result = result + "To: " + to.toString() + "\n";
+        return result;
+    }
 }

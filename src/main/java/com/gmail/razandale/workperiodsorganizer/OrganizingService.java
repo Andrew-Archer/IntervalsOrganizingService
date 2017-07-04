@@ -38,9 +38,11 @@ public class OrganizingService {
     /**
      * Constructor with a custom validator.
      * @param validator developer designed validator.
+     * @param welder
      */
-   public OrganizingService(Validator validator){
+   public OrganizingService(Validator validator, Welder welder){
        this.validator = validator;
+       this.welder = welder;
    }
    
    /**
@@ -48,7 +50,8 @@ public class OrganizingService {
     * the validator.
     */
    public OrganizingService(){
-       this.validator = new DefaultValidator();
+       this(new DefaultValidator(),
+       new DefaultWelder());
    }
     
     /**
