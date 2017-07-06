@@ -25,11 +25,11 @@ import static org.junit.Assert.*;
  * @author Andrew
  */
 public class OrganizingServiceTest {
-    private List<Work> sampleListOfWork = new ArrayList<>();
-    private  User sampleWorker = new User(sampleListOfWork, "trainer");
-    private List<WorkInterval> workIntervals = new ArrayList<>();
-    private List<EmployeeInterval> employeeIntervals = new ArrayList<>();
-    private List<Interval> expectedResults = new ArrayList<>();
+    private final List<Work> sampleListOfWork = new ArrayList<>();
+    private final  User sampleWorker = new User(sampleListOfWork, "trainer");
+    private final List<WorkInterval> workIntervals = new ArrayList<>();
+    private final List<EmployeeInterval> employeeIntervals = new ArrayList<>();
+    private final List<Interval> expectedResults = new ArrayList<>();
     public OrganizingServiceTest() {
     }
     

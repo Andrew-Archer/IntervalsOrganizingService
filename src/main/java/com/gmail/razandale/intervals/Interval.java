@@ -76,15 +76,15 @@ public class Interval implements Comparable {
         int startType = 30;
         int endType = 3;
 
-        if (getFrom().isBefore(interval.getFrom())) {
+        if (interval.getFrom().isBefore(getFrom())) {
             startType = 10;
-        } else if (getFrom().isAfter(interval.getFrom())) {
+        } else if (interval.getFrom().isAfter(getFrom())) {
             startType = 20;
         }
 
-        if (getTo().isBefore(interval.getTo())) {
+        if (interval.getTo().isBefore(getTo())) {
             endType = 1;
-        } else if (getTo().isAfter(interval.getTo())) {
+        } else if (interval.getTo().isAfter(getTo())) {
             endType = 2;
         }
 
