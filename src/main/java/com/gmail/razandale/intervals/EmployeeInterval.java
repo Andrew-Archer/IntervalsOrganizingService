@@ -39,7 +39,9 @@ public class EmployeeInterval extends Interval{
     
     @Override
     public int compareTo(Object o){
-        
+        return ((Interval) this).compareTo(o) == 0 ?
+                this.getCreationTime().compareTo(((EmployeeInterval)o).getCreationTime()) :
+               ((Interval) this).compareTo(o); 
     }
     
      @Override
