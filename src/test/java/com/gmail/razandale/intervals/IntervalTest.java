@@ -109,20 +109,54 @@ public class IntervalTest {
     @Test
     public void testCompareTo() {
         System.out.println("compareTo");
-        Object o = new Interval(
+        Interval beforeInterval = new Interval(
+            null,
+            null,
+            LocalDateTime.of(1,1,1,1,0),
+            LocalDateTime.of(1,1,1,2,2)
+        );
+        
+        Interval sameStartBeforeEndInterval = new Interval(
+            null,
+            null,
+            LocalDateTime.of(1,1,1,1,1),
+            LocalDateTime.of(1,1,1,2,1)
+        );
+        
+        Interval sameStartAfterEndInterval = new Interval(
+            null,
+            null,
+            LocalDateTime.of(1,1,1,1,1),
+            LocalDateTime.of(1,1,1,2,3)
+        );
+        
+        Interval sameStartSameEndInterval = new Interval(
             null,
             null,
             LocalDateTime.of(1,1,1,1,1),
             LocalDateTime.of(1,1,1,2,2)
         );
+        
+        Interval afterInterval = new Interval(
+            null,
+            null,
+            LocalDateTime.of(1,1,1,1,2),
+            LocalDateTime.of(1,1,1,2,3)
+        );
+        
         Interval instance = new Interval(
             null,
             null,
             LocalDateTime.of(1,1,1,1,1),
             LocalDateTime.of(1,1,1,2,2)
         );
-        int expResult = 0;
-        int result = instance.compareTo(o);
-        assertEquals(expResult, result);
+        
+        boolean expResult;
+        expResult = instance.compareTo(beforeInterval) > 0;
+        expResult = expResult && instance.compareTo(sameStartBeforeEndInterval) > 0;
+        expResult = expResult && instance.compareTo(sameStartAfterEndInterval) < 0;
+        expResult = expResult && instance.compareTo(sameStartSameEndInterval) == 0;
+        expResult = expResult && instance.compareTo(afterInterval) < 0;
+        assertTrue(expResult);
     }
 }

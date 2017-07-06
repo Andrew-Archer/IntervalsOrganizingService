@@ -37,6 +37,11 @@ public class EmployeeInterval extends Interval{
         this.creationTime = creationTime;
     }
     
+    @Override
+    public int compareTo(Object o){
+        
+    }
+    
      @Override
     public String toString(){
         String result = new String();
