@@ -6,6 +6,7 @@ package com.gmail.razandale.intervals;
 import com.gmail.razandale.workperiodsorganizer.model.User;
 import com.gmail.razandale.workperiodsorganizer.model.Work;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,19 +40,25 @@ public class EmployeeInterval extends Interval{
     
     @Override
     public int compareTo(Object o){
-        return ((Interval) this).compareTo(o) == 0 ?
-                this.getCreationTime().compareTo(((EmployeeInterval)o).getCreationTime()) :
-               ((Interval) this).compareTo(o); 
+        int result = from.compareTo(((EmployeeInterval) o).getFrom());
+        if(result == 0){
+            if ((creationTime != null) &&  (((EmployeeInterval) o).getCreationTime() != null)){
+                result = creationTime.compareTo(((EmployeeInterval) o).getCreationTime());
+            }
+        }
+        return result;
     }
     
      @Override
     public String toString(){
-        String result = new String();
-        result = result + "Employee: " + employee == null ?"none":employee.toString() + "\n";
-        result = result + "Work : " + work.toString() + "\n";
-        result = result + "From: " + from.toString() + "\n";
-        result = result + "To: " + to.toString() + "\n";
-        result = result + "CreationTime: " + creationTime.toString() + "\n";
+        String result = "";
+        result = "======================================\n";
+        result = result + (("Employee: " + employee == null) ?"none":employee.toString() + "\n");
+        result = result + ("Work : " + work.toString() + "\n");
+        result = result + ("From: " + from.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "\n");
+        result = result + ("To: " + to.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "\n");
+        result = result + ("CreationTime: " + creationTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + "\n");
+        result = result + "======================================\n";
         return result;
     }
 }

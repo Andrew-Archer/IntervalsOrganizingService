@@ -121,9 +121,7 @@ public class Interval implements Comparable {
      * argument's to.
      */
     public int compareTo(Object o) {
-        return from.compareTo(((Interval) o).getFrom()) == 0
-                ? to.compareTo(((Interval) o).getTo())
-                : from.compareTo(((Interval) o).getFrom());
+        return from.compareTo(((Interval) o).getFrom());
     }
     
     @Override

@@ -56,7 +56,7 @@ public class IntervalTest {
                 LocalDateTime.of(0, 1, 1, 2, 0));
         Duration expResult = Duration.ofHours(1);
         Duration result = instance.length();
-        assertEquals(expResult, result);
+        assertEquals("length() gives wrong duration of an interval.",expResult, result);
     }
 
     /**
@@ -77,7 +77,7 @@ public class IntervalTest {
             LocalDateTime.of(1,1,1,1,1),
             LocalDateTime.of(1,1,1,2,2)
         );
-        assertTrue(instance.hasIntersection(interval));
+        assertTrue("hasIntersection does not see intersection of test intervals.", instance.hasIntersection(interval));
     }
 
     /**
@@ -109,35 +109,21 @@ public class IntervalTest {
     @Test
     public void testCompareTo() {
         System.out.println("compareTo");
-        Interval beforeInterval = new Interval(
+        Interval beforeStartInterval = new Interval(
             null,
             null,
             LocalDateTime.of(1,1,1,1,0),
             LocalDateTime.of(1,1,1,2,2)
         );
         
-        Interval sameStartBeforeEndInterval = new Interval(
-            null,
-            null,
-            LocalDateTime.of(1,1,1,1,1),
-            LocalDateTime.of(1,1,1,2,1)
-        );
-        
-        Interval sameStartAfterEndInterval = new Interval(
-            null,
-            null,
-            LocalDateTime.of(1,1,1,1,1),
-            LocalDateTime.of(1,1,1,2,3)
-        );
-        
-        Interval sameStartSameEndInterval = new Interval(
+        Interval sameStartInterval = new Interval(
             null,
             null,
             LocalDateTime.of(1,1,1,1,1),
             LocalDateTime.of(1,1,1,2,2)
         );
         
-        Interval afterInterval = new Interval(
+        Interval afterStartInterval = new Interval(
             null,
             null,
             LocalDateTime.of(1,1,1,1,2),
@@ -152,11 +138,9 @@ public class IntervalTest {
         );
         
         boolean expResult;
-        expResult = instance.compareTo(beforeInterval) > 0;
-        expResult = expResult && instance.compareTo(sameStartBeforeEndInterval) > 0;
-        expResult = expResult && instance.compareTo(sameStartAfterEndInterval) < 0;
-        expResult = expResult && instance.compareTo(sameStartSameEndInterval) == 0;
-        expResult = expResult && instance.compareTo(afterInterval) < 0;
+        expResult = instance.compareTo(beforeStartInterval) > 0;
+        expResult = expResult && instance.compareTo(sameStartInterval) == 0;
+        expResult = expResult && instance.compareTo(afterStartInterval) < 0;
         assertTrue(expResult);
     }
 }

@@ -10,8 +10,9 @@ import com.gmail.razandale.intervals.Interval;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
 
-
+@Data
 public class DefaultValidator implements Validator {
     /**
      * Stores list of all invalidated intervals and
@@ -71,8 +72,8 @@ public class DefaultValidator implements Validator {
         //Make sure that an interval occupy not more than one day.
         //We don't need such check for a week or a month because first check
         //includes it.
-        return (interval.getFrom().getDayOfMonth() != interval.getTo().getDayOfMonth() &&
-                !interval.getFrom().getMonth().equals(interval.getTo().getMonth()) );
+        return ((interval.getFrom().getDayOfMonth() != interval.getTo().getDayOfMonth()) &&
+                (!interval.getFrom().getMonth().equals(interval.getTo().getMonth())) );
      
     }
     
@@ -85,13 +86,12 @@ public class DefaultValidator implements Validator {
      * returns found {@link WorkAccumulator};
      */
     private WorkAccumulator findWorkAccumulator(EmployeeInterval interval){
-        if(workAccumulators.isEmpty()){
-                return null;
-            }
-        for(WorkAccumulator workAccumulator : workAccumulators){
-            //If have found proper accumulator.
-            if(workAccumulator.getUser().equals(interval.getEmployee())){
-                return workAccumulator;
+        if(!workAccumulators.isEmpty()){
+            for(WorkAccumulator workAccumulator : workAccumulators){
+                //If have found proper accumulator.
+                if(workAccumulator.getUser().equals(interval.getEmployee())){
+                    return workAccumulator;
+                }
             }
         }
         return null;
