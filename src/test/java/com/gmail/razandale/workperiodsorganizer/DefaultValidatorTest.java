@@ -55,22 +55,32 @@ public class DefaultValidatorTest {
         works.add(work);
         User user = new User(works , "trainer");
         
-        EmployeeInterval interval = new EmployeeInterval(
+        EmployeeInterval writeInterval = new EmployeeInterval(
         user,
         work,        
-        LocalDateTime.of(1,1,1,1,1),
-        LocalDateTime.of(1,1,1,1,1),
+        LocalDateTime.of(1,1,1,1,0),
+        LocalDateTime.of(1,1,1,7,0),
+        LocalDateTime.of(1,1,1,1,1)
+        );
+        
+        EmployeeInterval wrongInterval = new EmployeeInterval(
+        user,
+        work,        
+        LocalDateTime.of(1,1,1,1,0),
+        LocalDateTime.of(1,1,1,9,1),
         LocalDateTime.of(1,1,1,1,1)
         );
         
         DefaultValidator instance = new DefaultValidator();
-        EmployeeInterval expResult = interval;
-        EmployeeInterval result = instance.validate(interval);
+        EmployeeInterval expResult = wrongInterval;
+        assertEquals(writeInterval, instance.validate(writeInterval));
+        EmployeeInterval result = instance.validate(wrongInterval);
         List<InvalidationOccurences> fails = instance.getValidationFailuresList();
-        for(InvalidationOccurences a : fails){
-            System.out.println(a.toString());
-        }
-        assertEquals(expResult, result);
+        assertEquals("Wrong interval's length", fails.get(0).getInvalidationCauses().get(0));
+        assertEquals("Amount of work has been exceeded",fails.get(0).getInvalidationCauses().get(1));
+        assertEquals(null, result);
+        
+
     }
     
 }

@@ -24,13 +24,11 @@ import static org.junit.Assert.*;
  *
  * @author Andrew
  */
-public class OrganizingServiceTest {
+public class DefaultWelderTest {
     private final List<Work> sampleListOfWork = new ArrayList<>();
     private final User sampleWorker = new User(sampleListOfWork, "trainer");
-    private final List<WorkInterval> workIntervals = new ArrayList<>();
-    private final List<EmployeeInterval> employeeIntervals = new ArrayList<>();
-    private final List<Interval> expectedResults = new ArrayList<>();
-    public OrganizingServiceTest() {
+    
+    public DefaultWelderTest() {
     }
     
     @BeforeClass
@@ -43,31 +41,6 @@ public class OrganizingServiceTest {
     
     @Before
     public void setUp() {
-        
-        sampleListOfWork.add(new Work("group", "Many people can be involved."));
-        sampleListOfWork.add(new Work("pesonal", "One trainer for each person."));
-        
-        workIntervals.add(new WorkInterval(
-                null,
-                sampleListOfWork.get(1),
-                LocalDateTime.of(1, 2, 2, 1, 0),
-                LocalDateTime.of(1, 2, 2, 2, 0)
-        ));
-                
-        employeeIntervals.add(new EmployeeInterval(
-                sampleWorker,
-                sampleListOfWork.get(1),
-                LocalDateTime.of(1, 2, 2, 1, 0),
-                LocalDateTime.of(1, 2, 2, 2, 0),
-                LocalDateTime.now()
-        ));
-        
-        expectedResults.add(new WorkInterval(
-                sampleWorker,
-                sampleListOfWork.get(1),
-                LocalDateTime.of(1, 2, 2, 1, 0),
-                LocalDateTime.of(1, 2, 2, 2, 0)
-        ));
     }
     
     @After
@@ -75,20 +48,30 @@ public class OrganizingServiceTest {
     }
 
     /**
-     * Test of organize method, of class OrganizingService.
+     * Test of weld method, of class DefaultWelder.
      */
     @Test
-    public void testOrganize() {
-        System.out.println("OrganizingService.organize.\n");
-        System.out.println("Data are given.\n");
-        System.out.println("workIntervals: " + workIntervals.toString() + "\n");
-        System.out.println("employeeIntervals: \n" + employeeIntervals.toString() + "\n");
-        System.out.println("expectedResults: \n" + expectedResults.toString() + "\n");
-        
-        OrganizingService instance = new OrganizingService();
-        List<Interval> expResult = expectedResults;
-        List<Interval> result = instance.organize(workIntervals, employeeIntervals);
-        System.out.println("result is: " + result.toString() + "\n");
+    public void testWeld() {
+        System.out.println("weld");
+        sampleListOfWork.add(new Work("group", "Many people can be involved."));
+        sampleListOfWork.add(new Work("pesonal", "One trainer for each person."));
+        WorkInterval workInterval = new WorkInterval(
+                null,
+                sampleListOfWork.get(1),
+                LocalDateTime.of(1, 2, 2, 1, 0),
+                LocalDateTime.of(1, 2, 2, 2, 0)
+        );
+        EmployeeInterval employeeInterval = new EmployeeInterval(
+                sampleWorker,
+                sampleListOfWork.get(1),
+                LocalDateTime.of(1, 2, 2, 1, 0),
+                LocalDateTime.of(1, 2, 2, 2, 0),
+                LocalDateTime.now()
+        );
+        Validator validator = new DefaultValidator();
+        DefaultWelder instance = new DefaultWelder();
+        Interval expResult = workInterval;
+        Interval result = instance.weld(workInterval, employeeInterval, validator);
         assertEquals(expResult, result);
     }
     

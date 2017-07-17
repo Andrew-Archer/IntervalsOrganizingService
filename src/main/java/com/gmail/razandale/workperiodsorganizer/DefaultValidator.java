@@ -18,7 +18,7 @@ public class DefaultValidator implements Validator {
      * Stores list of all invalidated intervals and
      * all causes of their invalidation.
      */
-    private List<InvalidationOccurences> validationFailuresList;
+    private List<InvalidationOccurences> validationFailuresList = new ArrayList<>();
     
     /**
      * Last validated interval to compare
@@ -72,8 +72,8 @@ public class DefaultValidator implements Validator {
         //Make sure that an interval occupy not more than one day.
         //We don't need such check for a week or a month because first check
         //includes it.
-        return ((interval.getFrom().getDayOfMonth() != interval.getTo().getDayOfMonth()) &&
-                (!interval.getFrom().getMonth().equals(interval.getTo().getMonth())) );
+        return ((interval.getFrom().getDayOfMonth() == interval.getTo().getDayOfMonth()) &&
+                (interval.getFrom().getMonth().equals(interval.getTo().getMonth())) );
      
     }
     
@@ -111,10 +111,10 @@ public class DefaultValidator implements Validator {
             //Add new accumulator.
             workAccumulator = new WorkAccumulator(interval);
             workAccumulators.add(workAccumulator);
+        }else{
+            //Accumulate the given interval
+            workAccumulator.accumulate(interval);
         }
-        
-        //Accumulate the given interval
-        workAccumulator.accumulate(interval);
         
         //If breakes any period limits.
         if(workAccumulator.getHoursInADay() > MAX_TOTAL_WORK_IN_A_DAY.toHours() ||
@@ -161,6 +161,7 @@ public class DefaultValidator implements Validator {
         //other way add new ValidationFailures to the validationFailuresList
         //and return null.
         if(causesOfInvalidation.isEmpty()){
+            //Save info about last the validated interval.
             lastValidatedInterval = interval;
             return interval;
         }else{

@@ -64,6 +64,36 @@ public class Interval implements Comparable {
                 && interval.getTo().isAfter(getTo().minusNanos(1))));
     }
 
+    /**
+     * Find in which week a period starts.
+     * @return number of a week.
+     * @throws RuntimeEception if period has wrong from value.
+     */
+    public int getWeekNumber(){
+        if (from.getDayOfMonth() > 0) {
+            if (from.getDayOfMonth() < 8) {
+                return 1;
+            }
+
+            if (from.getDayOfMonth() < 15) {
+                return 2;
+            }
+
+            if (from.getDayOfMonth() < 22) {
+                return 3;
+            }
+
+            if (from.getDayOfMonth() < 29) {
+                return 4;
+            }
+
+            if (from.getDayOfMonth() < 32) {
+                return 5;
+            }
+        }
+
+        throw new RuntimeException("Wrong number of day in a month. It can be only 1-31.");
+    }
     
     /**
      * There are only 9 types of overlapping is available, since there are no

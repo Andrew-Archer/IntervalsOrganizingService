@@ -103,6 +103,37 @@ public class IntervalTest {
         assertEquals(expResult, result);
     }
 
+    @Test(expected = RuntimeException.class)
+    public void testGetWeekNumber(){
+        final int daysInWeek = 7;
+        int dayNumber = 1;
+        Interval interval = new Interval(
+            null,
+            null,
+            LocalDateTime.of(1,12,1,1,1),
+            LocalDateTime.of(31,12,1,2,2)
+        );
+        for (int numberOfWeek = 1; numberOfWeek < 5; numberOfWeek++) {
+            for (;
+                    dayNumber < (daysInWeek * numberOfWeek + 1);
+                    dayNumber++) {
+                interval.setFrom(LocalDateTime.of(1, 12, dayNumber, 1, 1));
+                assertEquals(numberOfWeek, interval.getWeekNumber());
+            }
+        }
+        
+        for (dayNumber = 29;
+                dayNumber < 31;
+                dayNumber++) {
+                interval.setFrom(LocalDateTime.of(1, 12, dayNumber, 1, 1));
+                assertEquals(5, interval.getWeekNumber());
+            }
+        //Test exception
+        
+        interval.setFrom(LocalDateTime.of(1, 12, 32, 1, 1));
+        interval.setFrom(LocalDateTime.of(1, 12, 0, 1, 1));
+    }
+            
     /**
      * Test of compareTo method, of class Interval.
      */

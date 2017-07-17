@@ -33,10 +33,34 @@ public class WorkAccumulator {
     private Long hoursInAWeek;
     private Long hoursInAMonth;
     private EmployeeInterval previousInterval;
-    private enum TypeOfInterval {OTHER_DAY, OTHER_WEEK, OTHER_MONTH};
-        
-    private TypeOfInterval whatIsNext(EmployeeInterval interval){
-        return null;
+    private static enum TypeOfInterval {OTHER_DAY, OTHER_WEEK, OTHER_MONTH, SAME_ALL};
+    
+/**
+ * Help to understand if the given interval
+ * belongs to other day, week or month in comparison
+ * with reviousInterval.
+ * @param interval to test to what period it belongs.
+ * @return name of the belonging of the given interval.
+ */    
+    private TypeOfInterval whatIsNext(EmployeeInterval interval) {
+        if ((interval != null) && (previousInterval != null)) {
+            if (previousInterval.getFrom().getMonth()
+                    != previousInterval.getFrom().getMonth()) {
+                return TypeOfInterval.OTHER_MONTH;
+            }
+
+            if (previousInterval.getWeekNumber()
+                    != previousInterval.getWeekNumber()) {
+                return TypeOfInterval.OTHER_WEEK;
+            }
+
+            if (previousInterval.getFrom().getDayOfMonth()
+                    != previousInterval.getFrom().getDayOfMonth()) {
+                return TypeOfInterval.OTHER_DAY;
+            }
+        }
+
+        return TypeOfInterval.SAME_ALL;
     }
     
     /**
