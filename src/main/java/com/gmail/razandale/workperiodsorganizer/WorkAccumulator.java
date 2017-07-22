@@ -112,4 +112,12 @@ public class WorkAccumulator {
         
     }
     
+    @Override
+    public String toString(){
+        String result = "";
+        result += user.toString() + "\n";
+        result += "total hours in a day: " + "\n";
+        return result;
+    }
+    
 }
