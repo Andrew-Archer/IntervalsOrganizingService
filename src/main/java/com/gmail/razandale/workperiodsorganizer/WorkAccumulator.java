@@ -44,17 +44,17 @@ public class WorkAccumulator {
  */    
     private TypeOfInterval whatIsNext(EmployeeInterval interval) {
         if ((interval != null) && (previousInterval != null)) {
-            if (previousInterval.getFrom().getMonth()
+            if (interval.getFrom().getMonth()
                     != previousInterval.getFrom().getMonth()) {
                 return TypeOfInterval.OTHER_MONTH;
             }
 
-            if (previousInterval.getWeekNumber()
+            if (interval.getWeekNumber()
                     != previousInterval.getWeekNumber()) {
                 return TypeOfInterval.OTHER_WEEK;
             }
 
-            if (previousInterval.getFrom().getDayOfMonth()
+            if (interval.getFrom().getDayOfMonth()
                     != previousInterval.getFrom().getDayOfMonth()) {
                 return TypeOfInterval.OTHER_DAY;
             }
@@ -73,43 +73,45 @@ public class WorkAccumulator {
         hoursInADay = employeeInterval.length().toHours();
         hoursInAWeek = hoursInADay;
         hoursInAMonth = hoursInADay;
+        previousInterval = employeeInterval;
     }
     
     public void accumulate(EmployeeInterval interval){
+                long hoursToAdd = interval.length().toHours();
 		switch(whatIsNext(interval)){
                         //previousInterval is in another day than the
                         //interval.
 			case OTHER_DAY:{
-                            hoursInADay = interval.length().toHours();
-                            hoursInAWeek += hoursInADay;
-                            hoursInAMonth += hoursInADay;
+                            hoursInADay = hoursToAdd;
+                            hoursInAWeek += hoursToAdd;
+                            hoursInAMonth += hoursToAdd;
                         }
 			break;
                         //previousInterval is in another week than the
                         //interval.
 			case OTHER_WEEK:{
-                            hoursInADay = interval.length().toHours();
-                            hoursInAWeek = hoursInADay;
-                            hoursInAMonth += hoursInADay;
+                            hoursInADay = hoursToAdd;
+                            hoursInAWeek = hoursToAdd;
+                            hoursInAMonth += hoursToAdd;
                         }
                         break;
                         //previousInterval is in another month than the
                         //interval.
                         case OTHER_MONTH:{
-                            hoursInADay = interval.length().toHours();
-                            hoursInAWeek = hoursInADay;
-                            hoursInAMonth = hoursInADay;
+                            hoursInADay = hoursToAdd;
+                            hoursInAWeek = hoursToAdd;
+                            hoursInAMonth = hoursToAdd;
                         }
                         break;
                         //previousInterval is in the same day as the
                         //interval.
                         default:{
-                            hoursInADay += interval.length().toHours();
-                            hoursInAWeek += hoursInADay;
-                            hoursInAMonth += hoursInADay;
+                            hoursInADay += hoursToAdd;
+                            hoursInAWeek += hoursToAdd;
+                            hoursInAMonth += hoursToAdd;
                         }
 		}
-        
+        previousInterval = interval;
     }
     
     @Override
